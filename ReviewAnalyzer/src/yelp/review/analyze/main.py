@@ -1,7 +1,7 @@
 '''
 Created on Nov 27, 2016
 
-@author: sneha
+@author: sneha bangar
 '''
 import pandas as pd
 import review
@@ -9,7 +9,7 @@ from yelp.review.analyze.review import readReviews, readNgramWords, \
     create_training_df, tokenize
 from yelp.review.analyze.naivebayes import NaiveBayes
 
-#This class class divides the data in training and test sets and calls Naive Bayes classification method 
+#This class divides the data in training and test sets and calls Naive Bayes classification method 
 trainig_count = 1000
 testcount = 200
 
