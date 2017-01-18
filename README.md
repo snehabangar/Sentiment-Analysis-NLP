@@ -60,7 +60,7 @@ The high-level sequence involved in processing is as follows:
 Make sure you have the following libraries installed before running the code.
 
 - [NLTK](http://www.nltk.org/)
-- [Numpy](http://www.numpy.org/)
+- [Pandas](http://pandas.pydata.org/)
 
 Also you must have installed the stopword corpora of NLTK. Run the following in a python console for NTLK downloader.
 
