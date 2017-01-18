@@ -1,7 +1,7 @@
 '''
 Created on Dec 1, 2016
 
-@author: sneha
+@author: sneha Bangar
 '''
 
 import json
@@ -15,13 +15,19 @@ class MaxEntropy:
     label = ('neg', 'neu', 'pos')
     stop = set(stopwords.words('english'))
     
+    #tokenize review text
     def tokenize(self, review, ngram_words):        
         port = PorterStemmer()       
         splitted_text = self.split_text(review)
-        #filtered_text = [word for word in splitted_text if word not in stopwords.words('english')]
-        #stemmed_text = [port.stem(word) for word in filtered_text]
-        #text_with_ngrams = self.generate_ngrams(splitted_text, ngram_words)        
-        return splitted_text
+        #stopwords removal
+        filtered_text = [word for word in splitted_text if word not in stopwords.words('english')]
+        
+        #apply stemming
+        stemmed_text = [port.stem(word) for word in filtered_text]
+        
+        #apply n-gram model
+        text_with_ngrams = self.generate_ngrams(stemmed_text, ngram_words)        
+        return text_with_ngrams
 
     def expand_around_chars(self, text, characters):
         for char in characters:
@@ -36,7 +42,7 @@ class MaxEntropy:
         text_lowercase = [x.lower() for x in cleaned_text]
         stop_cleaned_text = [x for x in text_lowercase if x not in self.stop]        
         return stop_cleaned_text
-
+    #generate n-grams from review text
     def generate_ngrams(self, text, ngram_words):
         new_text = []
         index = 0
@@ -45,7 +51,7 @@ class MaxEntropy:
             new_text.append(new_word)
             index = new_index+1 if index!= new_index else index+1
         return new_text
- 
+    #concatenate words to generate n-gram
     def concatenate_words(self, index, text, ngram_words):
         word = text[index]
         if index == len(text)-1:
@@ -90,7 +96,8 @@ class MaxEntropy:
         
     def __init__(self, filename):
         self.fileName = filename
-        
+    
+    #create a maximum entropy classifier with training data    
     def createClassifier(self,training_set_formatted):
         numIterations = 3 #25 ##change to 2 for demo
         algorithm = nltk.classify.MaxentClassifier.ALGORITHMS[0] # 0 for max ent
@@ -98,6 +105,7 @@ class MaxEntropy:
         #classifier.show_most_informative_features(10)
         return classifier
     
+    #apply classifier on test data
     def classifyReviews(self,test_reviews, classifier):
         result = []
         result.append('Predicted  Actual')
@@ -108,6 +116,7 @@ class MaxEntropy:
             result.append([determined_label, label])
         return result   
     
+    #calculate accuracy
     def calculateAcc(self, result):
         correct = 0
         for row in result:
@@ -117,6 +126,7 @@ class MaxEntropy:
         accuracy = correct / float(len(result)) * 100        
         return accuracy 
 
+#create training and test datasets
 
 traing_count = 1000 #4000#2000
 testcount =  200 #1000#500    
@@ -143,10 +153,12 @@ for neu in test_set_neu:
     test_set.append(neu)
 for neg in test_set_neg:        
     test_set.append(neg)
-    
-training_set_formatted = [(maxEn.list_to_dict(element[0]), element[1]) for element in training_set] #convert list to dictionary as nltk needs dictionary format
+#convert list to dictionary as nltk needs dictionary format    
+training_set_formatted = [(maxEn.list_to_dict(element[0]), element[1]) for element in training_set] 
 test_set_formatted = [(maxEn.list_to_dict(element[0]), element[1]) for element in test_set]
+#call maximum entropy classifier
 classifier = maxEn.createClassifier(training_set_formatted)
 result = maxEn.classifyReviews(test_set_formatted, classifier)
+#calculate accuracy
 accuracy = maxEn.calculateAcc(result)
 print accuracy
