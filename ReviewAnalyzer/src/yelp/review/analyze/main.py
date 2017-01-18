@@ -9,6 +9,7 @@ from yelp.review.analyze.review import readReviews, readNgramWords, \
     create_training_df, tokenize
 from yelp.review.analyze.naivebayes import NaiveBayes
 
+#This class class divides the data in training and test sets and calls Naive Bayes classification method 
 trainig_count = 1000
 testcount = 200
 
@@ -30,7 +31,7 @@ if __name__ == '__main__':
     for neg in training_set_neg:
         training_set.append(neg)        
     
-     #combine pos + neu + neg test set
+    #combine pos + neu + neg test set
     test_set = test_set_pos
     for neu in test_set_neu:
         test_set.append(neu)
@@ -39,11 +40,13 @@ if __name__ == '__main__':
     
     #create training data  data frame
     df = create_training_df(training_set, ngram_words)
+    #initialize naive bayes 
     nb = NaiveBayes(df)    
     document = tokenize(test_set,ngram_words) #list of tokenized review text
     i = 0
     analysys_dict = dict.fromkeys(['predicted_class','stars','text'])
     result = []
+    #perform Naive Bayes classification on each review
     for review in document:
         review_class = nb.naivebayes_classify(review)
         analysys = dict({'predicted_class': review_class, 'stars': test_set[i]['stars'], 'text':test_set[i]['text']})
@@ -52,6 +55,8 @@ if __name__ == '__main__':
         #if(i > 50):
         #    break
 #pd.set_option('display.max_rows', len(df))
+
+#display the predicted and actual review ratings
 correct = 0      
 for res in result:  
     print res['predicted_class'] + ' ' + str(res['stars']) + ' ' + res['text']   
