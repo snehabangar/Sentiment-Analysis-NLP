@@ -1,6 +1,6 @@
 ### **Scope**
 
-This is a project for the Natural Language Processing Course taught in the graduate programm of the Computer Science department of the Univerisity of Texas at Daallas during the fall semester 2016.
+This is a project for the Natural Language Processing Course taught in the graduate programm of the Computer Science department of the Univerisity of Texas at Dallas during the fall semester 2016.
 
 ### **Goal**
 
