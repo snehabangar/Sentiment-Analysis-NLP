@@ -1,7 +1,7 @@
 '''
 Created on Dec 1, 2016
 
-@author: sneha
+@author: sneha Bangar
 '''
 
 import json
@@ -16,10 +16,11 @@ data = []
 categories = set()
 business_id = set()
 business = ""
+#read category file
 with open(catFile) as catf:
     for line in catf:
         categories.add(line.strip())
-        
+#read business file and get all the restaurants from businesses        
 with open(fileName) as f:
     for line in f:
             data.append(json.loads(line))
@@ -41,6 +42,7 @@ with open(fileName) as f:
 review_data = []  
 rest_count = 0
 rest_review_data =""
+#for all the businesses of type restaurant, retrieve reviews from review file
 with open(review_filename) as f:
     for line in f:
             review_data.append(json.loads(line))
@@ -51,6 +53,6 @@ with open(review_filename) as f:
             rest_review_data += json.dumps(line)
             rest_review_data +='\n'    
             rest_count +=1                                                                                 
-       
+#save the restaurant review in file       
 with open(rest_review_filename, 'w') as outfile:
     outfile.write(rest_review_data)         
