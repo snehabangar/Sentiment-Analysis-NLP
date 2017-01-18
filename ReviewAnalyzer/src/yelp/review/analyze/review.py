@@ -45,9 +45,9 @@ def tokenize(test_set, ngram_words):
         score = review['stars']
         text = review['text']
         splitted_text = split_text(text)
-        #filtered_text = [word for word in splitted_text if word not in stopwords.words('english')]
-        #stemmed_text = [port.stem(word) for word in filtered_text]
-        text_with_ngrams = generate_ngrams(splitted_text, ngram_words)
+        filtered_text = [word for word in splitted_text if word not in stopwords.words('english')]
+        stemmed_text = [port.stem(word) for word in filtered_text]
+        text_with_ngrams = generate_ngrams(stemmed_text, ngram_words)
         words_set.append(text_with_ngrams)
     return words_set
     
